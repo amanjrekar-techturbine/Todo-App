@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <main>
+        <div class="wrapper">
+            <div class="title-wrapper">
+                <h1>Todo App</h1>
+            </div>
+            <form class="input-wrapper" onsubmit="addTodo(event)">
+                <input type="text" placeholder="Add your new todo">
+                <button type="submit" class="btn add_btn"><i class="fa-solid fa-plus"></i></button>
+            </form>
+            <div class="task-wrapper">
+                <!-- <div class="task" >
+                <span class="checkbox-wrapper">
+                    <input type="checkbox" name="" id="" onclick="onCheckboxChange(event)">
+                </span>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, deserunt.</p>
+                <button class="delete_task"><i class="fa-solid fa-trash"></i></button>
+            </div> -->
+                <!-- <div class="task">
+                <p>Buy a new cycle</p>
+                <button class="delete_task"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="task">
+                <p>Buy a new cycle</p>
+                <button class="delete_task"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="task">
+                <p>Buy a new cycle</p>
+                <button class="delete_task"><i class="fa-solid fa-trash"></i></button>
+            </div> -->
+            </div>
+            <div class="pending-wrapper">
+                <p></p>
+                <button class="btn clear_all_btn">Clear All</button>
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+    <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>

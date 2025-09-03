@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #4B7EE6;
+    background: linear-gradient(15deg, rgba(75, 126, 230, 1) 0%, rgba(105, 232, 207, 1) 71%);
+    min-height: 100vh;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    background-position: center center;
+    /* padding: 100px 0; */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    padding: 11px;
+    border: none;
+    background-color: #8E4BE8;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover{
+    background-color: #6534a7;
+}
+
+.wrapper {
+    background: #ffffff;
+    width: min(400px, 100%);
+    padding: 30px;
+    border-radius: 10px;
+    margin: 100px 0;
+    box-shadow: rgba(0, 0, 0, 0.6) 5px 5px 15px;
+}
+
+.title-wrapper {
+    margin-bottom: 22px;
+}
+
+.input-wrapper {
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.input-wrapper input {
+    padding: 10px;
+    width: 80%;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.input-wrapper button {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.task-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 27px;
+}
+
+.task {
+    background: #F4F1F4;
+    display: flex;
+    border-radius: 5px;
+}
+
+
+.task:hover p {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.task p {
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    background: #F4F1F4;
+    width: 100%;
+    word-break: break-word;
+}
+
+.task button {
+    font-size: 20px;
+    padding: 11px;
+    border-radius: 5px;
+    width: 14%;
+    border: none;
+    background-color: #E84C3E;
+    color: white;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.task button:hover{
+    background: #d84a3d;
+
+}
+
+.task button:hover i{
+    transform: scale(1.2);
+}
+
+.task button i{
+    transition: transform 0.3s ease;
+}
+
+.checkbox-wrapper {
+    align-items: center;
+    display: flex;
+    margin-left: 15px;
+}
+
+.checkbox-wrapper input{
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.pending-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pending-wrapper p {
+    font-size: 19px;
+}
+
+.pending-wrapper button {
+    font-size: 17px;
+}
