@@ -3,6 +3,9 @@ let clearAll_btn = document.querySelector(".clear_all_btn")
 let task_wrapper = document.querySelector(".task-wrapper")
 let pending_wrapper = document.querySelector(".pending-wrapper")
 let hidden_data_field = document.querySelector("#hidden_data")
+let completed_todos_btn = document.querySelector(".completed_todos_btn")
+let incompleted_todos_btn = document.querySelector(".incompleted_todos_btn")
+let home_btn = document.querySelector(".home_btn")
 let pending_task = 0
 let dataList = [] // [{todo, isCompleted}]
 
@@ -14,16 +17,19 @@ function getPreviousData() {
 
         dataList = JSON.parse(localStorage.getItem("todo_list"))
 
-        let sortedList = sortedDataList()
+        // let sortedList = sortedDataList()
 
-        sortedList.forEach((todo) => {
-            appendTaskHTML(todo) 
+        // sortedList.forEach((todo) => {
+        //     appendTaskHTML(todo)
 
-            if (!todo.isCompleted) {
-                updatePendingTask(pending_task + 1)
-            }
+        //     if (!todo.isCompleted) {
+        //         updatePendingTask(pending_task + 1)
+        //     }
 
-        })
+        // })
+
+        // Show Home Page
+        showHomePage()
 
     }
 }
@@ -46,14 +52,14 @@ function updateDataList(todo, action) {      // todo : {title, isCompleted} || a
 
             // Sort Checked and unchecked todo
 
-            let sortedList = sortedDataList()
+            // let sortedList = sortedDataList()
 
-            task_wrapper.innerHTML = "";
+            // task_wrapper.innerHTML = "";
 
-            sortedList.forEach((todo) => {
-                appendTaskHTML(todo)
+            // sortedList.forEach((todo) => {
+            //     appendTaskHTML(todo)
 
-            })
+            // })
             break;
 
         case "updateTitle":
@@ -64,14 +70,20 @@ function updateDataList(todo, action) {      // todo : {title, isCompleted} || a
 
             dataList.splice(todo_index3, 1, todo)
 
-            task_wrapper.innerHTML = "";
+            // task_wrapper.innerHTML = "";
 
-            let sortedList2 = sortedDataList()
+            // let sortedList2 = sortedDataList()
 
-            sortedList2.forEach((todo) => {
-                appendTaskHTML(todo)
+            // sortedList2.forEach((todo) => {
+            //     appendTaskHTML(todo)
 
-            })
+            // })
+
+            // // Update Pending Task Desc
+            // updatePendingTask()
+
+            // // Update Filter UI
+            // updateFilterUI()
 
             break;
 
@@ -88,7 +100,7 @@ function updateDataList(todo, action) {      // todo : {title, isCompleted} || a
     }
 
     localStorage.setItem("todo_list", JSON.stringify(dataList))
-
+    showHomePage()
 }
 
 // To Update Pending Task
@@ -104,7 +116,7 @@ function addTodo(e) {
 
     let inputVal = input.value
     let hidden_field_val = hidden_data_field.value
-    let prevDataId = hidden_field_val ? JSON.parse(hidden_field_val) : null; 
+    let prevDataId = hidden_field_val ? JSON.parse(hidden_field_val) : null;
 
     // Blank Input Validation
     if (inputVal.trim().length == 0) {
@@ -130,16 +142,16 @@ function addTodo(e) {
         updateDataList(prevObj, "updateTitle")
 
     } else {
-        let todo = { id : getPrevDataListObjId() + 1, title: inputVal.trim(), isCompleted: false }
+        let todo = { id: getPrevDataListObjId() + 1, title: inputVal.trim(), isCompleted: false }
 
         // Append Task in HTML
-        appendTaskHTML(todo);
+        // appendTaskHTML(todo);
 
         // Update Pending Task
-        updatePendingTask(pending_task + 1)
+        // updatePendingTask(pending_task + 1)
 
         // Add todo in DataList(to store in localstorage)
-        
+
         updateDataList(todo, "append")
     }
 
@@ -183,16 +195,16 @@ function deleteTodo(e) {
 
     updateDataList({ title }, "remove")
 
-    if (!checkbox.checked) {
-        updatePendingTask(pending_task - 1)
-    }
+    // if (!checkbox.checked) {
+    //     updatePendingTask(pending_task - 1)
+    // }
 
     input.value = ""
     hidden_data_field.value = ""
 
 }
 
-// Update Todo
+// Update Todo(Get Todo Values and set in input field)
 function updateTodo(e) {
     let updateBtn = e.currentTarget;
     let todo = updateBtn.parentNode;
@@ -226,6 +238,12 @@ clearAll_btn.addEventListener("click", (e) => {
 
 // CheckBox Logic
 function onCheckboxChange(e) {
+
+    // Update UI
+    // completed_todos_btn.style.display = "inline-block"
+    // incompleted_todos_btn.style.display = "none"
+    // home_btn.style.display = "none"
+
     let checkbox = e.target;
     let todo = e.target.parentNode.parentNode
     let title = todo.children[1].textContent
@@ -233,13 +251,13 @@ function onCheckboxChange(e) {
 
     let todoFromDataList = dataList.find(x => x.title == title)
 
-    updateDataList({ id : todoFromDataList.id ,title, isCompleted }, "updateCheckbox")
+    updateDataList({ id: todoFromDataList.id, title, isCompleted }, "updateCheckbox")
 
-    if (checkbox.checked) {
-        updatePendingTask(pending_task - 1)
-    } else {
-        updatePendingTask(pending_task + 1)
-    }
+    // if (checkbox.checked) {
+    //     updatePendingTask(pending_task - 1)
+    // } else {
+    //     updatePendingTask(pending_task + 1)
+    // }
 
 }
 
@@ -251,15 +269,87 @@ function checkTodoAlreadyExist(title) {
     })
 }
 
-function getPrevDataListObjId(){
+function getPrevDataListObjId() {
     let prevObj = dataList[dataList.length - 1]
     let prevObjId = prevObj ? prevObj.id : 0
     return prevObjId
 }
 
-function sortedDataList(){
+function sortedDataList() {
     let completedTodos = dataList.filter(x => x.isCompleted == true)
     let incompletedTodos = dataList.filter(x => x.isCompleted == false)
     return [...completedTodos, ...incompletedTodos]
 }
 
+// Show Completed Todos
+function showCompletedTodos() {
+
+    // Update Filter UI
+    updateFilterUI("none", "inline-block", "inline-block")
+
+    let completedTodosList = dataList.filter(x => x.isCompleted == true)
+
+    // Refresh All Todos
+    task_wrapper.innerHTML = "";
+
+    let completed_todos_count = 0
+
+    completedTodosList.forEach((todo) => {
+        appendTaskHTML(todo)
+        completed_todos_count += 1
+    })
+
+    // Set Completed Count Description
+    pending_wrapper.querySelector("p").textContent = `You have ${completed_todos_count} completed tasks`
+
+}
+
+// Show Incompleted Todos
+function showInCompletedTodos() {
+    let incompletedTodosList = dataList.filter(x => x.isCompleted == false)
+
+    // Refresh All Todos
+    task_wrapper.innerHTML = "";
+
+    let incompleted_todos_count = 0
+
+    incompletedTodosList.forEach((todo) => {
+        appendTaskHTML(todo)
+        incompleted_todos_count += 1
+    })
+
+    // Set Incompleted Count Description
+    pending_wrapper.querySelector("p").textContent = `You have ${incompleted_todos_count} incompleted tasks`
+}
+
+function showHomePage() {
+
+    // Update Filter UI
+    updateFilterUI()
+
+    // Refresh Todos Desc
+    pending_task = 0
+    pending_wrapper.querySelector("p").textContent = `You have ${pending_task} pending tasks`
+
+    task_wrapper.innerHTML = "";
+
+    // getPreviousData()
+
+    // Render Todos
+    let sortedList = sortedDataList()
+
+    sortedList.forEach((todo) => {
+        appendTaskHTML(todo)
+
+        if (!todo.isCompleted) {
+            updatePendingTask(pending_task + 1)
+        }
+
+    })
+}
+
+function updateFilterUI(completedTodosDisplay = "inline-block", incompletedTodosDisplay = "none", homeDisplay = "none") {
+    completed_todos_btn.style.display = completedTodosDisplay
+    incompleted_todos_btn.style.display = incompletedTodosDisplay
+    home_btn.style.display = homeDisplay
+}

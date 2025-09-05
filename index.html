@@ -19,6 +19,11 @@
         <div class="wrapper">
             <div class="title-wrapper">
                 <h1>Todo App</h1>
+                <span>
+                    <button class="completed_todos_btn btn" onclick="showCompletedTodos()">Completed Todos</button>
+                    <button class="incompleted_todos_btn btn" onclick="showInCompletedTodos()" style="display: none;">Incompleted Todos</button>
+                    <button class="home_btn btn" onclick="showHomePage()" style="display: none;"><i class="fa-solid fa-house"></i></button>
+                </span>
             </div>
             <form class="input-wrapper" onsubmit="addTodo(event)">
                 <input type="text" placeholder="Add your new todo">
