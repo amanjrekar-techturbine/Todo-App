@@ -22,9 +22,20 @@
             </div>
             <form class="input-wrapper" onsubmit="addTodo(event)">
                 <input type="text" placeholder="Add your new todo">
+                <input type="hidden" name="prev_data" id="hidden_data">
                 <button type="submit" class="btn add_btn"><i class="fa-solid fa-plus"></i></button>
             </form>
             <div class="task-wrapper">
+                <!-- <div class="task">
+                    <span class="checkbox-wrapper">
+                        <input type="checkbox" name="" id=""
+                            onclick="onCheckboxChange(event)">
+                        
+                    </span>
+                    <p>${title}</p>
+                    <button class="update_task" onclick="updateTodo(event)"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="delete_task" onclick="deleteTodo(event)"><i class="fa-solid fa-trash"></i></button>
+                </div> -->
                 <!-- <div class="task" >
                 <span class="checkbox-wrapper">
                     <input type="checkbox" name="" id="" onclick="onCheckboxChange(event)">
