@@ -13,8 +13,10 @@ function getPreviousData() {
 
         dataList = JSON.parse(localStorage.getItem("todo_list"))
 
-        dataList.forEach((todo) => {
-            appendTaskHTML(todo.title, todo.isCompleted)
+        let sortedList = sortedDataList()
+
+        sortedList.forEach((todo) => {
+            appendTaskHTML(todo) 
 
             if (!todo.isCompleted) {
                 updatePendingTask(pending_task + 1)
@@ -30,34 +32,29 @@ getPreviousData()
 function updateDataList(todo, action) {      // todo : {title, isCompleted} || action : append/update/remove/clear
 
     switch (action) {
-        
+
         case "append":
             dataList.push(todo);
             break;
 
-        case "update":
+        case "updateCheckbox":
             let todo_index = dataList.findIndex((x) => {
                 return x.title == todo.title
             })
             dataList.splice(todo_index, 1, todo)
 
             // Sort Checked and unchecked todo
-            let removedTodo = dataList.splice(todo_index, 1)[0]
 
-            if (removedTodo.isCompleted) {
-                dataList.unshift(removedTodo)
-            } else {
-                dataList.push(removedTodo)
-            }
+            let sortedList = sortedDataList()
 
             task_wrapper.innerHTML = "";
 
-            dataList.forEach((todo) => {
-                appendTaskHTML(todo.title, todo.isCompleted)
+            sortedList.forEach((todo) => {
+                appendTaskHTML(todo)
 
             })
             break;
-            
+
         case "remove":
             let todo_index2 = dataList.findIndex((x) => {
                 return x.title == todo.title
@@ -102,27 +99,29 @@ function addTodo(e) {
         return;
     }
 
+    let todo = { id: getPrevDataListObjId() + 1, title: inputVal.trim(), isCompleted: false }
+
     // Append Task in HTML
-    appendTaskHTML(inputVal.trim(), false);
+    appendTaskHTML(todo);
 
     // Update Pending Task
     updatePendingTask(pending_task + 1)
 
     // Add todo in DataList(to store in localstorage)
-    let todo = { title: inputVal.trim(), isCompleted: false }
+
     updateDataList(todo, "append")
 
     // Clears Input After submission
-    input.value = ""
+    e.target.reset()
 }
 
 // Append Task in HTML
-function appendTaskHTML(title, isCompleted) {
+function appendTaskHTML(todo) {
     let todoTemp = `<div class="task">
                 <span class="checkbox-wrapper">
-                    <input type="checkbox" ${(isCompleted) ? "checked" : ""} name="" id="" onclick="onCheckboxChange(event)">
+                    <input type="checkbox" ${(todo.isCompleted) ? "checked" : ""} name="" id="" onclick="onCheckboxChange(event)">
                 </span>
-                <p>${title}</p>
+                <p>${todo.title}</p>
                 <button class="delete_task" onclick="deleteTodo(event)"><i class="fa-solid fa-trash"></i></button>
             </div>`
 
@@ -135,7 +134,7 @@ function deleteTodo(e) {
 
     let userConfirmation = confirm("Do you want to delete todo?")
 
-    if(!userConfirmation){
+    if (!userConfirmation) {
         return
     }
 
@@ -151,18 +150,22 @@ function deleteTodo(e) {
     if (!checkbox.checked) {
         updatePendingTask(pending_task - 1)
     }
+
+    input.value = ""
+    hidden_data_field.value = ""
+
 }
 
 //  Clear All Task
 clearAll_btn.addEventListener("click", (e) => {
 
-    if(dataList.length == 0){
+    if (dataList.length == 0) {
         return
     }
 
     let userConfirmation = confirm("Do you want to delete all todos?")
 
-    if(!userConfirmation){
+    if (!userConfirmation) {
         return
     }
 
@@ -181,7 +184,9 @@ function onCheckboxChange(e) {
     let title = todo.children[1].textContent
     let isCompleted = checkbox.checked
 
-    updateDataList({ title, isCompleted }, "update")
+    let todoFromDataList = dataList.find(x => x.title == title)
+
+    updateDataList({ id: todoFromDataList.id, title, isCompleted }, "updateCheckbox")
 
     if (checkbox.checked) {
         updatePendingTask(pending_task - 1)
@@ -199,5 +204,15 @@ function checkTodoAlreadyExist(title) {
     })
 }
 
+function getPrevDataListObjId() {
+    let prevObj = dataList[dataList.length - 1]
+    let prevObjId = prevObj ? prevObj.id : 0
+    return prevObjId
+}
 
+function sortedDataList() {
+    let completedTodos = dataList.filter(x => x.isCompleted == true)
+    let incompletedTodos = dataList.filter(x => x.isCompleted == false)
+    return [...completedTodos, ...incompletedTodos]
+}
 
