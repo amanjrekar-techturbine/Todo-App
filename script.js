@@ -3,6 +3,8 @@ let clearAll_btn = document.querySelector(".clear_all_btn")
 let task_wrapper = document.querySelector(".task-wrapper")
 let pending_wrapper = document.querySelector(".pending-wrapper")
 let hidden_data_field = document.querySelector("#hidden_data")
+let completed_todos_btn = document.querySelector(".completed_todos_btn")
+let incompleted_todos_btn = document.querySelector(".incompleted_todos_btn")
 let pending_task = 0
 let dataList = [] // [{todo, isCompleted}]
 
@@ -226,6 +228,11 @@ clearAll_btn.addEventListener("click", (e) => {
 
 // CheckBox Logic
 function onCheckboxChange(e) {
+
+    // Update UI
+    completed_todos_btn.style.display = "block"
+    incompleted_todos_btn.style.display = "none"
+
     let checkbox = e.target;
     let todo = e.target.parentNode.parentNode
     let title = todo.children[1].textContent
@@ -265,6 +272,11 @@ function sortedDataList() {
 
 // Show Completed Todos
 function showCompletedTodos() {
+
+    // Update UI
+    completed_todos_btn.style.display = "none"
+    incompleted_todos_btn.style.display = "block"
+
     let completedTodosList = dataList.filter(x => x.isCompleted == true)
 
     // Refresh All Todos
@@ -280,4 +292,22 @@ function showCompletedTodos() {
     // Set Completed Count Description
     pending_wrapper.querySelector("p").textContent = `You have ${completed_todos_count} completed tasks`
 
+}
+
+// Show Incompleted Todos
+function showInCompletedTodos(){
+    let incompletedTodosList = dataList.filter(x => x.isCompleted == false)
+
+    // Refresh All Todos
+    task_wrapper.innerHTML = "";
+
+    let incompleted_todos_count = 0
+
+    incompletedTodosList.forEach((todo) => {
+        appendTaskHTML(todo)
+        incompleted_todos_count += 1
+    })
+
+    // Set Incompleted Count Description
+    pending_wrapper.querySelector("p").textContent = `You have ${incompleted_todos_count} incompleted tasks`
 }

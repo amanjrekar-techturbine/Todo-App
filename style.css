@@ -55,7 +55,8 @@ main {
     justify-content: space-between;
 }
 
-.title-wrapper span .completed_todos_btn{
+.title-wrapper span .completed_todos_btn,
+.title-wrapper span .incompleted_todos_btn{
     background-color: green;
     font-size: 17px;
 }
